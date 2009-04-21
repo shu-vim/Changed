@@ -25,7 +25,7 @@
 "           sign define SIGN_CHANGED_DELETED_VIM text=D texthl=ChangedDefaultHl
 "           sign define SIGN_CHANGED_ADDED_VIM   text=A texthl=ChangedDefaultHl
 "           sign define SIGN_CHANGED_VIM         text=M texthl=ChangedDefaultHl
-"       example (changin highlight @gvimrc):
+"       example (changing highlight @gvimrc):
 "           highlight ChangedDefaultHl cterm=bold ctermbg=red ctermfg=white gui=bold guibg=red guifg=white
 "
 "   [Usual]
