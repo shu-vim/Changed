@@ -34,11 +34,13 @@
 "   Then signs appear on changed lines.
 "
 
-command!  Changed       :call <SID>Changed_execute()
-command!  ChangedClear  :call <SID>Changed_clear()
+command!  Changed          :call <SID>Changed_execute(0)
+command!  ChangedClear     :call <SID>Changed_clear()
+command!  ChangedStopAuto  :call <SID>Changed_stopAuto()
+command!  ChangedStartAuto :call <SID>Changed_startAuto()
 
-au! BufWritePost * Changed
-au! CursorHold   * Changed
+au! BufWritePost * call <SID>Changed_execute(0)
+au! CursorHold   * call <SID>Changed_execute(1)
 "au! CursorHoldI  * call <SID>Changed_execute()
 " heavy
 "au! InsertLeave * call <SID>Changed_execute()
@@ -54,6 +56,16 @@ if !exists('g:Changed_definedSigns')
 endif
 
 
+function! s:Changed_stopAuto()
+    let b:Changed__autoIsEnabled = 0
+endfunction
+
+
+function! s:Changed_startAuto()
+    let b:Changed__autoIsEnabled = 1
+endfunction
+
+
 function! s:Changed_clear()
     if exists('b:Changed__lineNums')
         " clear all signs
@@ -65,8 +77,9 @@ function! s:Changed_clear()
     endif
 endfunction
 
-function! s:Changed_execute()
+function! s:Changed_execute(auto)
     if exists('b:Changed__tick') && b:Changed__tick == b:changedtick | return | endif
+    if a:auto == 1 && exists('b:Changed__autoIsEnabled') && b:Changed__autoIsEnabled == 0 | return | endif
 
     call s:Changed_clear()
 
